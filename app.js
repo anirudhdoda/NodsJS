@@ -10,13 +10,15 @@ var authenticate=require('./authenticate');
 var config=require('./config');
 
 
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 const dishRouter=require('./routes/dishRouter');
 const leaderRouter=require('./routes/leaderRouter');
 const promoRouter=require('./routes/promotionRouter');
 const uploadRouter=require('./routes/uploadRouter');
+const favouriteRouter=require('./routes/favouriteRouter');
+const commentRouter=require('./routes/commentRouter');
+
 const mongoose = require('mongoose');
 
 const Dishes = require('./models/dishes');
@@ -66,26 +68,7 @@ app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-
-
-
-// function auth (req, res, next) {
-//   console.log(req.user);
-
-//   if (!req.user) {
-//     var err = new Error('You are not authenticated!');
-//     err.status = 403;
-//     next(err);
-//   }
-//   else {
-//         next();
-//   }
-// }
-
-// app.use(auth);
-
-
+app.use('/comments', commentRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -93,7 +76,7 @@ app.use('/dishes',dishRouter);
 app.use('/leaders',leaderRouter);
 app.use('/promotions',promoRouter);
 app.use('/imageUpload',uploadRouter);
-
+app.use('/favourites',favouriteRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
